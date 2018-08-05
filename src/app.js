@@ -1,15 +1,16 @@
 console.log('App.js is running');
 
-var app = {
+const app = {
     title: 'Indecision App',
-    subtitle: 'Let me decide for you!'
-}
-
+    subtitle: 'Let me decide for you!',
+    options: ['One', 'Two']
+};
 //JSX - JavaScript XML
-var template = (
+const template = (
     <div>
         <h1> {app.title} </h1> 
-        <p> {app.subtitle} </p>
+        {app.subtitle && <p>{app.subtitle}</p>}
+        <p>{app.options.length > 0 ? 'Here are your options' : 'No options'}</p>
         <ol> 
             <li>Item one</li>
             <li>Item two</li>
@@ -17,24 +18,23 @@ var template = (
     </div>
 );
 
-var user = {
-    name: 'Ilayda Gurbak',
+const user = {
+    name: 'Ilayda',
     age: 23,
     location: 'Istanbul'
 };
-function getLocation() {
-    return 'Unknown';
+function getLocation(location) {
+    if (location) {
+        return <p>Location: {location}</p>;
+    } 
 }
-var userName = 'Ilayda Gurbak';
-var userAge = 23;
-var userLocation = 'Istanbul';
-var template2 = (
+const template2 = (
     <div> 
-        <h1>{user.name}</h1>
-        <p>Age: {user.age}</p>
-        <p>Location: {getLocation(user.location)}</p>
+        <h1>{user.name ? user.name : 'Anonymous'}</h1>
+        {(user.age && user.age >= 18) &&  <p>Age: {user.age}</p>}
+        {getLocation(user.location)}
     </div>
 );
-var appRoot = document.getElementById('app');
+const appRoot = document.getElementById('app');
 
-ReactDOM.render(template2, appRoot);
+ReactDOM.render(template, appRoot);
