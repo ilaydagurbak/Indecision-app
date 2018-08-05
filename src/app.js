@@ -1,40 +1,52 @@
-console.log('App.js is running');
+console.log('App.js is running')
 
 const app = {
     title: 'Indecision App',
     subtitle: 'Let me decide for you!',
-    options: ['One', 'Two']
-};
-//JSX - JavaScript XML
-const template = (
-    <div>
-        <h1> {app.title} </h1> 
-        {app.subtitle && <p>{app.subtitle}</p>}
-        <p>{app.options.length > 0 ? 'Here are your options' : 'No options'}</p>
-        <ol> 
-            <li>Item one</li>
-            <li>Item two</li>
-        </ol>
-    </div>
-);
-
-const user = {
-    name: 'Ilayda',
-    age: 23,
-    location: 'Istanbul'
-};
-function getLocation(location) {
-    if (location) {
-        return <p>Location: {location}</p>;
-    } 
+    options: []
 }
-const template2 = (
-    <div> 
-        <h1>{user.name ? user.name : 'Anonymous'}</h1>
-        {(user.age && user.age >= 18) &&  <p>Age: {user.age}</p>}
-        {getLocation(user.location)}
-    </div>
-);
+const onFormSubmit = (e) => {
+    e.preventDefault()
+
+    const option = e.target.elements.option.value
+
+    if (option) {
+        app.options.push(option)
+        e.target.elements.option.value = ''
+        render()
+    }
+}
+
+//JSX - JavaScript XML
+const onRemoveAll = () => {
+    app.options = []
+    render()
+}
 const appRoot = document.getElementById('app');
 
-ReactDOM.render(template, appRoot);
+const render = () => {
+    const template = (
+        <div>
+            <h1> {app.title} </h1> 
+            {app.subtitle && <p>{app.subtitle}</p>}
+            <p>{app.options.length > 0 ? 'Here are your options' : 'No options'}</p>
+            <p>{app.options.length} </p>
+            <button onClick={onRemoveAll}>Remove All </button>
+            <ol> 
+                <li>Item one</li>
+                <li>Item two</li>
+            </ol>
+            <form onSubmit={onFormSubmit}>
+                <input type="text" name="option"/>
+                <button>Add Option</button>
+            </form>
+        </div>
+    )
+
+    ReactDOM.render(template, appRoot)
+}
+
+render()
+
+
+
